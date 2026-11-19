@@ -89,6 +89,8 @@
   .prayer-slide h2 { font-size:3.8vw; font-weight:800; }
   .prayer-slide h2 span { color:#f3d27a; }
   .pdate { margin-top:1.8vh; font-size:2.7vw; font-weight:800; color:#f3d27a; letter-spacing:.02em; }
+  .pnext { margin-top:2.4vh; font-size:4.4vw; font-weight:900; color:#ffffff; letter-spacing:.02em; }
+  .pnext b { color:#f3d27a; }
   .ptimes { margin-top:3.6vh; display:flex; gap:1.4vw; }
   .ptime { background:rgba(255,255,255,.07); border:1px solid rgba(212,175,55,.4); border-radius:1.2vw; padding:2.2vh 1.6vw; text-align:center; min-width:11.5vw; }
   .ptime.next { background:linear-gradient(180deg,#f3d27a,#d4af37); color:#0b3d24; border-color:#f3d27a; }
@@ -100,7 +102,8 @@
   #bar { position:fixed; left:0; right:0; bottom:0; height:9.5vh; background:rgba(4,26,17,.92); border-top:2px solid rgba(212,175,55,.6); display:flex; align-items:center; padding:0 2vw; gap:2vw; z-index:40; }
   #bar .blogo { display:flex; align-items:center; gap:.8vw; min-width:0; }
   #bar .blogo img { width:6.4vh; height:6.4vh; border-radius:50%; object-fit:cover; }
-  #bar .bname { font-size:1.45vw; font-weight:800; line-height:1.25; white-space:nowrap; }
+  #bar .bname { font-size:1.08vw; font-weight:800; line-height:1.3; white-space:nowrap; }
+  .bname .bname-jp { font-size:.92vw; font-weight:600; color:#cfe8d8; }
   #bar .bstrip { flex:1; display:flex; justify-content:center; gap:1.5vw; font-size:1.35vw; color:#cfe8d8; }
   #bar .bstrip b { color:#fff; font-weight:700; }
   #bar .bstrip .nx { color:#f3d27a; }
@@ -221,6 +224,7 @@
   <section class="slide prayer-slide" data-dur="11">
     <h2>本日の礼拝時間 <span>Prayer Times — Anjo</span></h2>
     <div class="pdate" id="pdate"></div>
+    <div class="pnext" id="pnext"></div>
     <div class="ptimes" id="ptimes"></div>
     <div class="pnote">礼拝時間になるとアザーンが流れます ・ The adhan plays at each prayer time</div>
   </section>
@@ -229,7 +233,7 @@
 
 <!-- Bottom bar -->
 <div id="bar">
-  <div class="blogo"><img src="logo.jpg" alt=""><div class="bname">Madina Halal<br>マディナ ハラール</div></div>
+  <div class="blogo"><img src="logo.jpg" alt=""><div class="bname">Madina Halal Restaurant &amp; Foods<br><span class="bname-jp">マディナ ハラール</span></div></div>
   <div class="bstrip" id="bstrip"></div>
   <div class="bclock"><div class="btime" id="clock">--:--</div><div class="bdate" id="bdate"></div><div class="bnext" id="nextprayer"></div></div>
 </div>
@@ -249,8 +253,8 @@
   <img src="logo.jpg" alt="Madina Halal">
   <div class="s-title">Madina Halal Signage</div>
   <div class="s-btn">▶ タップして開始 ・ Tap to Start</div>
-  <div class="s-note">コーラン朗誦から始まります／アザーンも流れます<br>Opens with Quran recitation — Al-Fatiha, Ayatul Kursi, Al-Falaq, An-Nas, Ya-Sin, Al-Waqi'ah — then nasheed ・ Adhan plays at prayer times</div>
-  <div class="credits">Tilawat: Atcovi — CC0 / CC BY-SA 4.0 (Wikimedia Commons); Ayatul Kursi: AbdurRahman Al Sudais — CC BY 4.0 (versebyversequran.com) ・ Nasheeds: “Alhamdulilah” Jawad Syed — CC BY 3.0; “Return With Hope”, “Light Within” Nasheed Sound Library — CC BY; “Allahu”, “The Beauty of Existence” Muslim Tune — CC BY (via YouTube) ・ Adhan: Andrewler — CC BY-SA 4.0 (Wikimedia Commons) ・ Fajr Adhan: Br. Shahid Bajwa, Masjid Isa Ibn-e-Maryam — CC BY (via YouTube)</div>
+  <div class="s-note">コーラン朗誦から始まります／アザーンも流れます<br>Opens with Quran recitation — Al-Fatiha, Ayatul Kursi, Al-Falaq, An-Nas, Ya-Sin, Al-Waqi'ah, end of Al-Baqarah — then nasheed ・ Recitation repeats at 21:30 closing ・ Adhan plays at prayer times</div>
+  <div class="credits">Tilawat: Atcovi — CC0 / CC BY-SA 4.0 (Wikimedia Commons); Ayatul Kursi: AbdurRahman Al Sudais — CC BY 4.0 (versebyversequran.com) ・ Nasheeds: “Alhamdulilah” Jawad Syed — CC BY 3.0; “Return With Hope”, “Light Within” Nasheed Sound Library — CC BY; “Allahu”, “The Beauty of Existence” Muslim Tune — CC BY (via YouTube) ・ Adhan (all prayers, incl. Fajr): Sheikh Hashim Muhammad As-Sakkaf, Masjid al-Haram, Makkah — CC BY (via YouTube) ・ Opening isti'adha: CC BY (via YouTube)</div>
 </div>
 
 <audio id="tilawat" src="tilawat.mp3" preload="auto"></audio>
@@ -345,16 +349,34 @@ const tilawatAudio = document.getElementById("tilawat");
 music.volume = 0.30;
 let musicStarted = false;
 function startMusic() { if (musicStarted) return; musicStarted = true; const r = music.play(); if (r) r.catch(() => {}); }
-const recQueue = ["tilawat.mp3", "kursi.mp3", "falak.mp3", "nas.mp3", "yasin.mp3", "waqiah.mp3"];
+const recQueue = ["opening.mp3", "tilawat.mp3", "kursi.mp3", "falak.mp3", "nas.mp3", "yasin.mp3", "waqiah.mp3", "baqarah-end.mp3"];
 let recIdx = 0;
+let recActive = false;
 function playRec() {
+  recActive = true;
   tilawatAudio.src = recQueue[recIdx];
   const r = tilawatAudio.play(); if (r) r.catch(() => nextRec());
 }
 function nextRec() {
   recIdx++;
-  if (recIdx >= recQueue.length) { startMusic(); return; }
+  if (recIdx >= recQueue.length) {
+    recActive = false;
+    if (!musicStarted) startMusic();
+    else { const r = music.play(); if (r) r.catch(() => {}); }
+    return;
+  }
   playRec();
+}
+let closePlayed = "";
+function checkClosingRec() {
+  if (!started || adhanActive || recActive) return;
+  const now = new Date();
+  if (now.getHours() === 21 && now.getMinutes() === 30 && closePlayed !== now.toDateString()) {
+    closePlayed = now.toDateString();
+    try { music.pause(); } catch (e) {}
+    recIdx = 0;
+    playRec();
+  }
 }
 tilawatAudio.addEventListener("ended", nextRec);
 tilawatAudio.addEventListener("error", nextRec);
@@ -379,6 +401,8 @@ function renderPrayerUI() {
   const now = new Date();
   const pd = document.getElementById("pdate");
   if (pd) pd.textContent = DAYS_JP[now.getDay()] + " ・ " + DAYS_EN[now.getDay()] + ", " + MON_EN[now.getMonth()] + " " + now.getDate() + ", " + now.getFullYear();
+  const pn = document.getElementById("pnext");
+  if (pn) pn.innerHTML = "次の礼拝 ・ Next Prayer: <b>" + nx.prayer.en + " " + fmtMin(nx.mins) + "</b>" + (nx.tomorrow ? " (明日 ・ tomorrow)" : "");
   const nx = nextPrayer(now);
   const wrap = document.getElementById("ptimes");
   wrap.innerHTML = PRAYERS.map(p =>
@@ -469,6 +493,7 @@ setInterval(() => {
   }
   renderClock();
   checkAdhan();
+  checkClosingRec();
 }, 1000);
 setInterval(renderPrayerUI, 60000);
 renderPrayerUI(); renderClock();
