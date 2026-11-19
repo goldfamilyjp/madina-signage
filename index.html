@@ -3,6 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#07271a">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
 <title>Madina Halal — Signage</title>
 <style>
   * { margin:0; padding:0; box-sizing:border-box; }
@@ -98,6 +102,8 @@
   #adhan .a-jp { font-size:3.4vw; margin-top:1.6vh; }
   #adhan .a-time { font-size:4.6vw; font-weight:800; margin-top:2.6vh; font-variant-numeric:tabular-nums; }
   #adhan .a-msg { font-size:2.2vw; color:#cfe8d8; margin-top:2.4vh; line-height:1.6; }
+  #fsbtn { position:fixed; top:1.2vh; right:1.2vw; z-index:70; background:rgba(7,39,26,.55); color:#e9c860; border:1px solid rgba(233,200,96,.55); border-radius:1vh; font-size:2.8vh; line-height:1; padding:.8vh 1.5vh; cursor:pointer; opacity:.55; }
+  #fsbtn:hover { opacity:1; }
   #adhan img { width:15vh; height:15vh; border-radius:50%; object-fit:cover; margin-bottom:3vh; }
   /* ---------- start overlay ---------- */
   #start { position:fixed; inset:0; background:#07271a; z-index:80; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; cursor:pointer; }
@@ -195,6 +201,7 @@
 </div>
 
 <!-- Start overlay -->
+<button id="fsbtn" title="全画面 / Fullscreen">⛶</button>
 <div id="start">
   <img src="logo.jpg" alt="Madina Halal">
   <div class="s-title">Madina Halal Signage</div>
@@ -397,6 +404,12 @@ setInterval(() => {
 }, 1000);
 setInterval(renderPrayerUI, 60000);
 renderPrayerUI(); renderClock();
+
+/* =============== Fullscreen button =============== */
+document.getElementById("fsbtn").addEventListener("click", () => {
+  if (document.fullscreenElement) { document.exitFullscreen().catch(() => {}); }
+  else { const el = document.documentElement; if (el.requestFullscreen) el.requestFullscreen().catch(() => {}); }
+});
 
 /* =============== Start =============== */
 document.getElementById("start").addEventListener("click", () => {
