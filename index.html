@@ -88,6 +88,7 @@
   .prayer-slide { flex-direction:column; align-items:center; justify-content:center; background:radial-gradient(110% 110% at 50% 20%, #0e5a34 0%, #07271a 75%); padding-bottom:11vh; }
   .prayer-slide h2 { font-size:3.8vw; font-weight:800; }
   .prayer-slide h2 span { color:#f3d27a; }
+  .pdate { margin-top:1.8vh; font-size:2.7vw; font-weight:800; color:#f3d27a; letter-spacing:.02em; }
   .ptimes { margin-top:3.6vh; display:flex; gap:1.4vw; }
   .ptime { background:rgba(255,255,255,.07); border:1px solid rgba(212,175,55,.4); border-radius:1.2vw; padding:2.2vh 1.6vw; text-align:center; min-width:11.5vw; }
   .ptime.next { background:linear-gradient(180deg,#f3d27a,#d4af37); color:#0b3d24; border-color:#f3d27a; }
@@ -106,6 +107,7 @@
   #bar .bclock { text-align:right; }
   #bar .btime { font-size:3.4vh; font-weight:800; line-height:1; font-variant-numeric:tabular-nums; }
   #bar .bnext { font-size:1.3vw; color:#f3d27a; margin-top:.5vh; white-space:nowrap; }
+  #bar .bdate { font-size:1.15vw; color:#cfe8d8; margin-top:.4vh; white-space:nowrap; }
   /* ---------- adhan overlay ---------- */
   #adhan { position:fixed; inset:0; background:radial-gradient(110% 110% at 50% 25%, #0e5a34 0%, #041a11 78%); z-index:60; display:none; flex-direction:column; align-items:center; justify-content:center; text-align:center; }
   #adhan.show { display:flex; }
@@ -218,6 +220,7 @@
   <!-- Prayer times -->
   <section class="slide prayer-slide" data-dur="11">
     <h2>本日の礼拝時間 <span>Prayer Times — Anjo</span></h2>
+    <div class="pdate" id="pdate"></div>
     <div class="ptimes" id="ptimes"></div>
     <div class="pnote">礼拝時間になるとアザーンが流れます ・ The adhan plays at each prayer time</div>
   </section>
@@ -228,7 +231,7 @@
 <div id="bar">
   <div class="blogo"><img src="logo.jpg" alt=""><div class="bname">Madina Halal<br>マディナ ハラール</div></div>
   <div class="bstrip" id="bstrip"></div>
-  <div class="bclock"><div class="btime" id="clock">--:--</div><div class="bnext" id="nextprayer"></div></div>
+  <div class="bclock"><div class="btime" id="clock">--:--</div><div class="bdate" id="bdate"></div><div class="bnext" id="nextprayer"></div></div>
 </div>
 
 <!-- Adhan overlay -->
@@ -246,13 +249,14 @@
   <img src="logo.jpg" alt="Madina Halal">
   <div class="s-title">Madina Halal Signage</div>
   <div class="s-btn">▶ タップして開始 ・ Tap to Start</div>
-  <div class="s-note">コーラン朗誦から始まります／アザーンも流れます<br>Opens with Quran recitation (Surah Al-Fatiha), then nasheed ・ Adhan plays at prayer times</div>
-  <div class="credits">Tilawat: Atcovi — CC0 ・ Nasheeds: “Alhamdulilah” Jawad Syed — CC BY 3.0; “Return With Hope”, “Light Within” Nasheed Sound Library — CC BY; “Allahu”, “The Beauty of Existence” Muslim Tune — CC BY (via YouTube) ・ Adhan: Andrewler — CC BY-SA 4.0 (Wikimedia Commons)</div>
+  <div class="s-note">コーラン朗誦から始まります／アザーンも流れます<br>Opens with Quran recitation — Al-Fatiha, Ayatul Kursi, Al-Falaq, An-Nas, Ya-Sin, Al-Waqi'ah — then nasheed ・ Adhan plays at prayer times</div>
+  <div class="credits">Tilawat: Atcovi — CC0 / CC BY-SA 4.0 (Wikimedia Commons); Ayatul Kursi: AbdurRahman Al Sudais — CC BY 4.0 (versebyversequran.com) ・ Nasheeds: “Alhamdulilah” Jawad Syed — CC BY 3.0; “Return With Hope”, “Light Within” Nasheed Sound Library — CC BY; “Allahu”, “The Beauty of Existence” Muslim Tune — CC BY (via YouTube) ・ Adhan: Andrewler — CC BY-SA 4.0 (Wikimedia Commons) ・ Fajr Adhan: Br. Shahid Bajwa, Masjid Isa Ibn-e-Maryam — CC BY (via YouTube)</div>
 </div>
 
 <audio id="tilawat" src="tilawat.mp3" preload="auto"></audio>
 <audio id="music" src="music.mp3" preload="auto"></audio>
 <audio id="adhan-audio" src="adhan.mp3" preload="auto"></audio>
+<audio id="adhan-fajr-audio" src="adhan-fajr.mp3" preload="auto"></audio>
 
 <script>
 "use strict";
@@ -329,15 +333,31 @@ const fmtMin = mins => {
   return String(h).padStart(2, "0") + ":" + String(m).padStart(2, "0");
 };
 
+const DAYS_JP = ["日曜日","月曜日","火曜日","水曜日","木曜日","金曜日","土曜日"];
+const DAYS_EN = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+const MON_EN = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+
 /* =============== State =============== */
 const music = document.getElementById("music");
 const adhanAudio = document.getElementById("adhan-audio");
+const fajrAudio = document.getElementById("adhan-fajr-audio");
 const tilawatAudio = document.getElementById("tilawat");
 music.volume = 0.30;
 let musicStarted = false;
 function startMusic() { if (musicStarted) return; musicStarted = true; const r = music.play(); if (r) r.catch(() => {}); }
-tilawatAudio.addEventListener("ended", startMusic);
-tilawatAudio.addEventListener("error", startMusic);
+const recQueue = ["tilawat.mp3", "kursi.mp3", "falak.mp3", "nas.mp3", "yasin.mp3", "waqiah.mp3"];
+let recIdx = 0;
+function playRec() {
+  tilawatAudio.src = recQueue[recIdx];
+  const r = tilawatAudio.play(); if (r) r.catch(() => nextRec());
+}
+function nextRec() {
+  recIdx++;
+  if (recIdx >= recQueue.length) { startMusic(); return; }
+  playRec();
+}
+tilawatAudio.addEventListener("ended", nextRec);
+tilawatAudio.addEventListener("error", nextRec);
 const playlist = ["music.mp3", "music2.mp3", "music3.mp3", "music4.mp3", "music5.mp3"];
 let trackIdx = 0;
 music.addEventListener("ended", () => { trackIdx = (trackIdx + 1) % playlist.length; music.src = playlist[trackIdx]; if (musicStarted && !adhanActive) { const r = music.play(); if (r) r.catch(() => {}); } });
@@ -357,6 +377,8 @@ function nextPrayer(now) {
 }
 function renderPrayerUI() {
   const now = new Date();
+  const pd = document.getElementById("pdate");
+  if (pd) pd.textContent = DAYS_JP[now.getDay()] + " ・ " + DAYS_EN[now.getDay()] + ", " + MON_EN[now.getMonth()] + " " + now.getDate() + ", " + now.getFullYear();
   const nx = nextPrayer(now);
   const wrap = document.getElementById("ptimes");
   wrap.innerHTML = PRAYERS.map(p =>
@@ -370,6 +392,8 @@ function renderClock() {
   const now = new Date();
   document.getElementById("clock").textContent =
     String(now.getHours()).padStart(2, "0") + ":" + String(now.getMinutes()).padStart(2, "0");
+  const bd = document.getElementById("bdate");
+  if (bd) bd.textContent = DAYS_EN[now.getDay()].slice(0, 3) + ", " + MON_EN[now.getMonth()].slice(0, 3) + " " + now.getDate() + " ・ " + DAYS_JP[now.getDay()];
   const nx = nextPrayer(now);
   if (nx.mins !== null && nx.mins !== undefined) {
     let target = new Date(now); target.setHours(0, 0, 0, 0); target = new Date(target.getTime() + nx.mins * 60000);
@@ -389,15 +413,16 @@ function triggerAdhan(p) {
   document.getElementById("adhan-time").textContent = fmtMin(times[p.key]);
   document.getElementById("adhan").classList.add("show");
   try { music.pause(); tilawatAudio.pause(); } catch (e) {}
-  adhanAudio.currentTime = 0;
-  const pr = adhanAudio.play(); if (pr) pr.catch(() => {});
+  const aa = p.key === "fajr" ? fajrAudio : adhanAudio;
+  aa.currentTime = 0;
+  const pr = aa.play(); if (pr) pr.catch(() => {});
   const done = () => {
     document.getElementById("adhan").classList.remove("show");
     adhanActive = false;
     if (started) { if (!musicStarted) startMusic(); else { const r = music.play(); if (r) r.catch(() => {}); } }
-    adhanAudio.removeEventListener("ended", done);
+    aa.removeEventListener("ended", done);
   };
-  adhanAudio.addEventListener("ended", done);
+  aa.addEventListener("ended", done);
   setTimeout(() => { if (adhanActive) done(); }, 4.5 * 60 * 1000); // safety
 }
 function checkAdhan() {
@@ -462,8 +487,9 @@ document.getElementById("start").addEventListener("click", () => {
   const el = document.documentElement;
   if (el.requestFullscreen) el.requestFullscreen().catch(() => {});
   tilawatAudio.volume = 0.9;
-  const tr = tilawatAudio.play(); if (tr) tr.catch(() => startMusic());
-  setTimeout(() => { if (!musicStarted && tilawatAudio.paused) startMusic(); }, 75000);
+  recIdx = 0;
+  playRec();
+  setTimeout(() => { if (!musicStarted && tilawatAudio.paused && tilawatAudio.currentTime === 0) nextRec(); }, 75000);
   showSlide(0);
 });
 </script>
