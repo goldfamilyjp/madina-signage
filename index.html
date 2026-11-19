@@ -53,6 +53,17 @@
   .card .cen { font-size:1.65vw; font-weight:700; line-height:1.2; }
   .card .cjp { font-size:1.3vw; color:#cfe8d8; margin-top:.4vh; }
   .card .cprice { font-size:2.1vw; color:#f3d27a; font-weight:800; margin-top:.6vh; }
+
+  /* ---------- announcement slides ---------- */
+  .announce { flex-direction:column; align-items:center; justify-content:center; text-align:center; background:radial-gradient(110% 110% at 50% 30%, #14663c 0%, #07271a 75%); padding-bottom:10vh; }
+  .announce .a-tag { background:linear-gradient(180deg,#f3d27a,#d4af37); color:#0b3d24; font-weight:800; font-size:1.7vw; padding:1vh 2.6vw; border-radius:999px; letter-spacing:.1em; }
+  .announce .a-big { font-size:6.2vw; font-weight:800; color:#fff; line-height:1.15; margin-top:3vh; }
+  .announce .a-big span { color:#f3d27a; }
+  .announce .a-en { font-size:2.6vw; font-weight:700; color:#f3d27a; margin-top:1.2vh; letter-spacing:.14em; }
+  .announce .a-time { font-size:3.4vw; font-weight:800; margin-top:3.2vh; }
+  .announce .a-time small { display:block; font-size:1.9vw; font-weight:600; color:#cfe8d8; margin-top:.8vh; }
+  .announce .a-sub { margin-top:3.4vh; border:2px dashed rgba(243,210,122,.8); border-radius:1.2vw; padding:1.8vh 3vw; font-size:2.1vw; font-weight:700; line-height:1.5; }
+  .announce .a-sub span { display:block; font-size:1.6vw; color:#f3d27a; font-weight:700; }
   /* ---------- coupon ---------- */
   .coupon { flex-direction:column; align-items:center; justify-content:center; text-align:center; background:radial-gradient(110% 110% at 50% 30%, #14663c 0%, #07271a 75%); padding-bottom:10vh; }
   .coupon .big { font-size:8.5vw; font-weight:800; color:#f3d27a; line-height:1; text-shadow:0 1vh 4vh rgba(0,0,0,.4); }
@@ -103,6 +114,7 @@
   #adhan .a-time { font-size:4.6vw; font-weight:800; margin-top:2.6vh; font-variant-numeric:tabular-nums; }
   #adhan .a-msg { font-size:2.2vw; color:#cfe8d8; margin-top:2.4vh; line-height:1.6; }
   #fsbtn { position:fixed; top:1.2vh; right:1.2vw; z-index:95; background:rgba(7,39,26,.65); color:#e9c860; border:1px solid rgba(233,200,96,.7); border-radius:1vh; font-size:3.2vh; line-height:1; padding:.9vh 1.6vh; cursor:pointer; opacity:.8; }
+  #fsbtn.hide { display:none; }
   #fsbtn:hover { opacity:1; }
   #adhan img { width:15vh; height:15vh; border-radius:50%; object-fit:cover; margin-bottom:3vh; }
   /* ---------- start overlay ---------- */
@@ -138,10 +150,10 @@
     </div>
   </section>
 
-  <section class="slide feature" data-dur="8"><div class="info"><span class="tag">ランチセット ・ LUNCH SET</span><div class="dish-en">Classic Lunch</div><div class="dish-jp">クラシックランチ</div><div class="price">¥790 <small>税込</small></div><div class="halal-line">100% HALAL ・ 100％ハラール</div><div class="mkt">お得な定番ランチ<span>Our classic value lunch</span></div></div><div class="photo"><div class="pblur" style="background-image:url('np-lunch-classic.jpg')"></div><div class="pmain" style="background-image:url('np-lunch-classic.jpg')"></div></div></section>
-  <section class="slide feature" data-dur="8"><div class="info"><span class="tag">ランチセット ・ LUNCH SET</span><div class="dish-en">Business Lunch</div><div class="dish-jp">ビジネスランチ</div><div class="price">¥990 <small>税込</small></div><div class="halal-line">100% HALAL ・ 100％ハラール</div><div class="mkt">ボリューム満点の満足ランチ<span>A hearty, satisfying lunch</span></div></div><div class="photo"><div class="pblur" style="background-image:url('np-lunch-business.jpg')"></div><div class="pmain" style="background-image:url('np-lunch-business.jpg')"></div></div></section>
-  <section class="slide feature" data-dur="8"><div class="info"><span class="tag">ランチセット ・ LUNCH SET</span><div class="dish-en">Indo Lunch</div><div class="dish-jp">インドランチ</div><div class="price">¥1,190 <small>税込</small></div><div class="halal-line">100% HALAL ・ 100％ハラール</div><div class="mkt">インドネシアの味が楽しめる<span>A taste of Indonesia</span></div></div><div class="photo"><div class="pblur" style="background-image:url('np-lunch-indo.jpg')"></div><div class="pmain" style="background-image:url('np-lunch-indo.jpg')"></div></div></section>
-  <section class="slide feature" data-dur="8"><div class="info"><span class="tag">ランチセット ・ LUNCH SET</span><div class="dish-en">Masala Lunch</div><div class="dish-jp">マサラランチ</div><div class="price">¥1,290 <small>税込</small></div><div class="halal-line">100% HALAL ・ 100％ハラール</div><div class="mkt">スパイス香る本格マサラ<span>Fragrant, authentic masala</span></div></div><div class="photo"><div class="pblur" style="background-image:url('np-lunch-masala.jpg')"></div><div class="pmain" style="background-image:url('np-lunch-masala.jpg')"></div></div></section>
+  <section class="slide feature" data-dur="8"><div class="info"><span class="tag">ランチセット ・ LUNCH SET</span><div class="dish-en">Classic Lunch</div><div class="dish-jp">クラシックランチ</div><div class="price">¥790 <small>税込</small></div><div class="halal-line">100% HALAL ・ 100％ハラール</div><div class="mkt">お得な定番ランチ<span>Our classic value lunch</span></div></div><div class="photo"><div class="pblur" style="background-image:url('np-lunch-classic-land.jpg')"></div><div class="pmain" style="background-image:url('np-lunch-classic-land.jpg')"></div></div></section>
+  <section class="slide feature" data-dur="8"><div class="info"><span class="tag">ランチセット ・ LUNCH SET</span><div class="dish-en">Business Lunch</div><div class="dish-jp">ビジネスランチ</div><div class="price">¥990 <small>税込</small></div><div class="halal-line">100% HALAL ・ 100％ハラール</div><div class="mkt">ボリューム満点の満足ランチ<span>A hearty, satisfying lunch</span></div></div><div class="photo"><div class="pblur" style="background-image:url('np-lunch-business-land.jpg')"></div><div class="pmain" style="background-image:url('np-lunch-business-land.jpg')"></div></div></section>
+  <section class="slide feature" data-dur="8"><div class="info"><span class="tag">ランチセット ・ LUNCH SET</span><div class="dish-en">Indo Lunch</div><div class="dish-jp">インドランチ</div><div class="price">¥1,190 <small>税込</small></div><div class="halal-line">100% HALAL ・ 100％ハラール</div><div class="mkt">インドネシアの味が楽しめる<span>A taste of Indonesia</span></div></div><div class="photo"><div class="pblur" style="background-image:url('np-lunch-indo-land.jpg')"></div><div class="pmain" style="background-image:url('np-lunch-indo-land.jpg')"></div></div></section>
+  <section class="slide feature" data-dur="8"><div class="info"><span class="tag">ランチセット ・ LUNCH SET</span><div class="dish-en">Masala Lunch</div><div class="dish-jp">マサラランチ</div><div class="price">¥1,290 <small>税込</small></div><div class="halal-line">100% HALAL ・ 100％ハラール</div><div class="mkt">スパイス香る本格マサラ<span>Fragrant, authentic masala</span></div></div><div class="photo"><div class="pblur" style="background-image:url('np-lunch-masala-land.jpg')"></div><div class="pmain" style="background-image:url('np-lunch-masala-land.jpg')"></div></div></section>
   <section class="slide feature" data-dur="8"><div class="info"><span class="tag">ピザ ・ PIZZA</span><div class="dish-en">Chicken Tikka Pizza</div><div class="dish-jp">チキンティッカピザ</div><div class="price">¥1,190 <small>税込</small></div><div class="halal-line">100% HALAL ・ 100％ハラール</div><div class="mkt">チキンティッカ×チーズの贅沢ピザ<span>Chicken tikka & cheese — a Madina twist</span></div></div><div class="photo"><div class="pblur" style="background-image:url('np-pizza.jpg')"></div><div class="pmain" style="background-image:url('np-pizza.jpg')"></div></div></section>
   <section class="slide feature" data-dur="8"><div class="info"><span class="tag">ビリヤニ ・ BIRYANI</span><div class="dish-en">Mutton Kacchi Biryani</div><div class="dish-jp">マトンカッチビリヤニ</div><div class="price">¥1,490 <small>税込</small></div><div class="halal-line">100% HALAL ・ 100％ハラール</div><div class="mkt">じっくり炊いた本格カッチビリヤニ<span>Slow-cooked authentic kacchi biryani</span></div></div><div class="photo"><div class="pblur" style="background-image:url('np-kacchi.jpg')"></div><div class="pmain" style="background-image:url('np-kacchi.jpg')"></div></div></section>
   <section class="slide feature" data-dur="8"><div class="info"><span class="tag">ディナーセット ・ DINNER SET</span><div class="dish-en">Premium Biryani Set</div><div class="dish-jp">プレミアムビリヤニセット</div><div class="price">¥1,390 <small>税込</small></div><div class="halal-line">100% HALAL ・ 100％ハラール</div><div class="mkt">サラダ・デザート・ドリンク付き<span>With salad, dessert & a drink</span></div></div><div class="photo"><div class="pblur" style="background-image:url('np-premium-biryani.jpg')"></div><div class="pmain" style="background-image:url('np-premium-biryani.jpg')"></div></div></section>
@@ -161,6 +173,22 @@
     <div class="mid">¥5,000以上のお会計で ¥500割引</div>
     <div class="small">メニューサイトのクーポンコードをご利用ください<br>¥500 off orders over ¥5,000 with a coupon code on our menu site<br>2026年12月31日まで ・ Until Dec 31, 2026</div>
     <div class="mkt" style="display:table;margin:1.8vh auto 0;">今だけのお得なチャンス！お見逃しなく<span>Don't miss this limited offer!</span></div><div class="code">MADINA500</div>
+  </section>
+
+  <section class="slide announce" data-dur="9">
+    <div class="a-tag">豊田店 ・ TOYOTA</div>
+    <div class="a-big">土曜日<span>ビュッフェ</span></div>
+    <div class="a-en">SATURDAY BUFFET</div>
+    <div class="a-time">毎週土曜日 11:00–21:00<small>Every Saturday 11:00 AM – 9:00 PM</small></div>
+    <div class="mkt" style="margin-top:3.4vh;">食べ放題！家族みんなでどうぞ<span>All-you-can-eat — bring the whole family!</span></div>
+  </section>
+
+  <section class="slide announce" data-dur="9">
+    <div class="a-tag">安城店 ・ ANJO</div>
+    <div class="a-big">金曜日<span>ビュッフェ</span></div>
+    <div class="a-en">FRIDAY BUFFET ・ JUMU'AH SPECIAL</div>
+    <div class="a-time">毎週金曜日 11:00–14:00<small>Every Friday 11:00 AM – 2:00 PM ・ Jumu'ah only</small></div>
+    <div class="a-sub">金曜日限定！スペシャルビリヤニ<span>Friday only: Special Biryani — TAKE-OUT ONLY</span>お持ち帰りのみ</div>
   </section>
 
   
@@ -421,6 +449,7 @@ setInterval(renderPrayerUI, 60000);
 renderPrayerUI(); renderClock();
 
 /* =============== Fullscreen button =============== */
+document.addEventListener("fullscreenchange", () => { document.getElementById("fsbtn").classList.toggle("hide", !!document.fullscreenElement); });
 document.getElementById("fsbtn").addEventListener("click", () => {
   if (document.fullscreenElement) { document.exitFullscreen().catch(() => {}); }
   else { const el = document.documentElement; if (el.requestFullscreen) el.requestFullscreen().catch(() => {}); }
