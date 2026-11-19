@@ -407,9 +407,9 @@ function renderPrayerUI() {
   const now = new Date();
   const pd = document.getElementById("pdate");
   if (pd) pd.textContent = DAYS_JP[now.getDay()] + " ・ " + DAYS_EN[now.getDay()] + ", " + MON_EN[now.getMonth()] + " " + now.getDate() + ", " + now.getFullYear();
+  const nx = nextPrayer(now);
   const pn = document.getElementById("pnext");
   if (pn) pn.innerHTML = "次の礼拝 ・ Next Prayer: <b>" + nx.prayer.en + " " + fmtMin(nx.mins) + "</b>" + (nx.tomorrow ? " (明日 ・ tomorrow)" : "");
-  const nx = nextPrayer(now);
   const wrap = document.getElementById("ptimes");
   wrap.innerHTML = PRAYERS.map(p =>
     '<div class="ptime' + (nx.prayer.key === p.key && !nx.tomorrow ? " next" : "") + '">' +
