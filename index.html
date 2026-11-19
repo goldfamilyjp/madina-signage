@@ -16,7 +16,8 @@
   .slide { position:absolute; inset:0; opacity:0; transition:opacity 1.1s ease; pointer-events:none; display:flex; }
   .slide.active { opacity:1; }
   /* ---------- feature slides ---------- */
-  .feature .photo { position:absolute; inset:0; overflow:hidden; z-index:0; }
+  .feature .photo { position:absolute; left:40vw; right:0; top:0; bottom:0; overflow:hidden; z-index:0; }
+  .feature .pmain { inset:4vh 3vw 13vh; }
   .pblur { position:absolute; inset:-5vh; background-size:cover; background-position:center; filter:blur(2.6vh) brightness(.5); }
   .pmain { position:absolute; inset:0; background-size:contain; background-repeat:no-repeat; background-position:center; }
   .mkt { margin-top:1.7vh; display:inline-block; align-self:flex-start; background:linear-gradient(135deg,#e9c860,#b8860b); color:#07271a; font-weight:800; font-size:2.5vh; line-height:1.35; padding:1vh 2.4vh; border-radius:99px; box-shadow:0 .6vh 2vh rgba(0,0,0,.45); }
@@ -27,7 +28,15 @@
   @keyframes mktPulse { 0%,100% { transform:scale(1); } 50% { transform:scale(1.05); } }
   .slide.active .big { animation:bigPulse 1.8s ease-in-out infinite; display:inline-block; }
   @keyframes bigPulse { 0%,100% { transform:scale(1); } 50% { transform:scale(1.055); } }
-  .feature .info { position:absolute; left:0; right:0; bottom:0; z-index:2; display:flex; flex-direction:column; justify-content:flex-end; padding:16vh 4vw 12.5vh; background:linear-gradient(to top, rgba(4,26,17,.95) 28%, rgba(4,26,17,.55) 60%, rgba(4,26,17,0) 100%); }
+  .feature .info { position:absolute; left:0; width:40vw; top:0; bottom:0; z-index:2; display:flex; flex-direction:column; justify-content:center; padding:4vh 2.6vw 12vh; background:linear-gradient(180deg,#0b4530 0%,#052215 100%); border-right:2px solid rgba(212,175,55,.4); }
+  .feature .tag { font-size:1.05vw; margin-bottom:2.2vh; }
+  .feature .dish-en { font-size:2.85vw; }
+  .feature .dish-jp { font-size:1.7vw; }
+  .feature .price { font-size:3.4vw; margin-top:2.6vh; }
+  .feature .price small { font-size:1.3vw; }
+  .feature .halal-line { font-size:1.15vw; margin-top:2.2vh; }
+  .feature .mkt { font-size:2.1vh; margin-top:2.2vh; }
+  .feature .mkt span { font-size:1.55vh; }
   .tag { display:inline-block; align-self:flex-start; border:2px solid #d4af37; color:#f3d27a; border-radius:999px; padding:.4vh 1.2vw; font-size:1.5vw; letter-spacing:.15em; margin-bottom:2.5vh; }
   .dish-en { font-size:4.6vw; font-weight:800; line-height:1.05; }
   .dish-jp { font-size:2.6vw; color:#cfe8d8; margin-top:1.2vh; font-weight:600; }
