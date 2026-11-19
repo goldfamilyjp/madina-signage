@@ -245,6 +245,12 @@
     <video id="promo" src="promo-reel.mp4" muted playsinline preload="auto"></video>
   </section>
 
+  <!-- How to order video -->
+  <section class="slide video-slide" data-dur="46">
+    <div class="vblur" style="background-image:url('dish-butter-chicken.jpg')"></div>
+    <video id="howto" src="howto.mp4" muted playsinline preload="metadata"></video>
+  </section>
+
   <!-- Order -->
   <section class="slide order" data-dur="11">
     <div class="left">
@@ -454,21 +460,21 @@ function checkAdhan() {
 /* =============== Slideshow =============== */
 const slides = Array.from(document.querySelectorAll(".slide"));
 let cur = -1, slideTimer = null;
-const video = document.getElementById("promo");
+const video = document.getElementById("promo"); const allVideos = Array.from(document.querySelectorAll("video"));
 function showSlide(i) {
   slides.forEach((s, j) => s.classList.toggle("active", j === i));
   cur = i;
   const s = slides[i];
-  clearTimeout(slideTimer);
+  clearTimeout(slideTimer); const activeVideo = s.querySelector("video"); allVideos.forEach(v => { if (v !== activeVideo) { try { v.pause(); } catch (e) {} } });
   if (s.classList.contains("video-slide")) {
-    try { video.currentTime = 0; const r = video.play(); if (r) r.catch(() => {}); } catch (e) {}
-    slideTimer = setTimeout(nextSlide, 32000); // safety cap
+    try { activeVideo.currentTime = 0; const r = activeVideo.play(); if (r) r.catch(() => {}); } catch (e) {}
+    slideTimer = setTimeout(nextSlide, ((parseFloat(s.dataset.dur) || 30) + 2) * 1000); // safety cap
   } else {
     slideTimer = setTimeout(nextSlide, (parseFloat(s.dataset.dur) || 9) * 1000);
   }
 }
 function nextSlide() { showSlide((cur + 1) % slides.length); }
-video.addEventListener("ended", () => { if (slides[cur] && slides[cur].classList.contains("video-slide")) nextSlide(); });
+allVideos.forEach(v => v.addEventListener("ended", () => { if (slides[cur] && slides[cur].contains(v)) nextSlide(); }));
 
 /* =============== Ticker =============== */
 setInterval(() => {
