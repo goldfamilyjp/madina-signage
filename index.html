@@ -184,6 +184,10 @@
 
   <!-- Feature dishes -->
   <!-- Coupon -->
+
+  <section class="slide feature" data-dur="8"><div class="info"><span class="tag">ナン ・ NAN</span><div class="dish-en">Cheese Nan</div><div class="dish-jp">チーズナン</div><div class="price">¥690 <small>税込</small></div><div class="halal-line">100% HALAL ・ 100％ハラール</div><div class="mkt">とろけるチーズたっぷり<span>Loaded with melty cheese</span></div></div><div class="photo"><div class="pblur" style="background-image:url('np-cheese-nan.jpg')"></div><div class="pmain" style="background-image:url('np-cheese-nan.jpg')"></div></div></section>
+  <section class="slide feature" data-dur="8"><div class="info"><span class="tag">魚料理 ・ FISH</span><div class="dish-en">Ikan Goreng</div><div class="dish-jp">イカンゴレン</div><div class="price">¥1,390 <small>税込</small></div><div class="halal-line">100% HALAL ・ 100％ハラール</div><div class="mkt">カリッと揚げた魚のフライ<span>Crispy fried fish, Indonesian style</span></div></div><div class="photo"><div class="pblur" style="background-image:url('np-ikan-goreng.jpg')"></div><div class="pmain" style="background-image:url('np-ikan-goreng.jpg')"></div></div></section>
+  <section class="slide feature" data-dur="8"><div class="info"><span class="tag">魚料理 ・ FISH</span><div class="dish-en">Ikan Bakar Rica</div><div class="dish-jp">イカンバカルリカ</div><div class="price">¥1,490 <small>税込</small></div><div class="halal-line">100% HALAL ・ 100％ハラール</div><div class="mkt">ピリ辛グリルフィッシュ<span>Spicy grilled fish</span></div></div><div class="photo"><div class="pblur" style="background-image:url('np-ikan-bakar-rica.jpg')"></div><div class="pmain" style="background-image:url('np-ikan-bakar-rica.jpg')"></div></div></section>
   <section class="slide coupon" data-dur="10">
     <div class="big">¥500 OFF</div>
     <div class="mid">¥5,000以上のお会計で ¥500割引</div>
@@ -481,6 +485,7 @@ function checkAdhan() {
 /* =============== Slideshow =============== */
 const slides = Array.from(document.querySelectorAll(".slide"));
 let cur = -1, slideTimer = null;
+let slideShownAt = 0, slideDurMs = 0;
 const video = document.getElementById("promo"); const allVideos = Array.from(document.querySelectorAll("video"));
 function showSlide(i) {
   slides.forEach((s, j) => s.classList.toggle("active", j === i));
@@ -488,14 +493,17 @@ function showSlide(i) {
   const s = slides[i];
   clearTimeout(slideTimer); const activeVideo = s.querySelector("video"); allVideos.forEach(v => { if (v !== activeVideo) { try { v.pause(); } catch (e) {} } });
   if (s.classList.contains("video-slide")) {
-    try { activeVideo.currentTime = 0; const r = activeVideo.play(); if (r) r.catch(() => {}); } catch (e) {}
-    slideTimer = setTimeout(nextSlide, ((parseFloat(s.dataset.dur) || 30) + 2) * 1000); // safety cap
+    try { activeVideo.style.visibility = "visible"; activeVideo.currentTime = 0; const r = activeVideo.play(); if (r) r.catch(() => {}); } catch (e) {}
+    slideDurMs = ((parseFloat(s.dataset.dur) || 30) + 2) * 1000; slideShownAt = Date.now();
+    slideTimer = setTimeout(nextSlide, slideDurMs); // safety cap
   } else {
-    slideTimer = setTimeout(nextSlide, (parseFloat(s.dataset.dur) || 9) * 1000);
+    slideDurMs = (parseFloat(s.dataset.dur) || 9) * 1000; slideShownAt = Date.now();
+    slideTimer = setTimeout(nextSlide, slideDurMs);
   }
 }
 function nextSlide() { showSlide((cur + 1) % slides.length); }
 allVideos.forEach(v => v.addEventListener("ended", () => { if (slides[cur] && slides[cur].contains(v)) nextSlide(); }));
+allVideos.forEach(v => v.addEventListener("error", () => { v.style.visibility = "hidden"; }));
 
 /* =============== Ticker =============== */
 setInterval(() => {
@@ -507,6 +515,7 @@ setInterval(() => {
     renderPrayerUI();
   }
   renderClock();
+  if (started && slideDurMs > 0 && Date.now() - slideShownAt > slideDurMs + 4000) nextSlide();
   checkAdhan();
   checkClosingRec();
 }, 1000);
