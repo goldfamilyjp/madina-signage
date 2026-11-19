@@ -120,6 +120,8 @@
   #adhan .a-msg { font-size:2.2vw; color:#cfe8d8; margin-top:2.4vh; line-height:1.6; }
   #fsbtn { position:fixed; top:1.2vh; right:1.2vw; z-index:95; background:rgba(7,39,26,.65); color:#e9c860; border:1px solid rgba(233,200,96,.7); border-radius:1vh; font-size:3.2vh; line-height:1; padding:.9vh 1.6vh; cursor:pointer; opacity:.8; }
   #fsbtn.hide { display:none; }
+  #sndbtn { position:fixed; top:1.2vh; left:1.2vw; z-index:96; background:rgba(7,39,26,.65); color:#e9c860; border:1px solid rgba(233,200,96,.7); border-radius:1vh; font-size:2.6vh; line-height:1; padding:.9vh 1.4vh; cursor:pointer; opacity:.8; }
+  #sndbtn:hover { opacity:1; }
   #fsbtn:hover { opacity:1; }
   #adhan img { width:15vh; height:15vh; border-radius:50%; object-fit:cover; margin-bottom:3vh; }
   /* ---------- start overlay ---------- */
@@ -249,12 +251,13 @@
 
 <!-- Start overlay -->
 <button id="fsbtn" title="全画面 / Fullscreen">⛶</button>
+<button id="sndbtn" title="音声オン・オフ / Sound on-off">🔊</button>
 <div id="start">
   <img src="logo.jpg" alt="Madina Halal">
   <div class="s-title">Madina Halal Signage</div>
   <div class="s-btn">▶ タップして開始 ・ Tap to Start</div>
   <div class="s-note">コーラン朗誦から始まります／アザーンも流れます<br>Opens with Quran recitation — Al-Fatiha, Ayatul Kursi, Al-Falaq, An-Nas, Ya-Sin, Al-Waqi'ah, end of Al-Baqarah — then nasheed ・ Recitation repeats at 21:30 closing ・ Adhan plays at prayer times</div>
-  <div class="credits">Tilawat: Atcovi — CC0 / CC BY-SA 4.0 (Wikimedia Commons); Ayatul Kursi: AbdurRahman Al Sudais — CC BY 4.0 (versebyversequran.com) ・ Nasheeds: “Alhamdulilah” Jawad Syed — CC BY 3.0; “Return With Hope”, “Light Within” Nasheed Sound Library — CC BY; “Allahu”, “The Beauty of Existence” Muslim Tune — CC BY (via YouTube) ・ Adhan (all prayers, incl. Fajr): Sheikh Hashim Muhammad As-Sakkaf, Masjid al-Haram, Makkah — CC BY (via YouTube) ・ Opening isti'adha: CC BY (via YouTube)</div>
+  <div class="credits">Tilawat: Sheikh Maher Al-Mu'aiqly — CC BY (Wikimedia Commons / via YouTube); Surah Ya-Sin: Atcovi — CC0 (Wikimedia Commons) ・ Nasheeds: “Alhamdulilah” Jawad Syed — CC BY 3.0; “Return With Hope”, “Light Within” Nasheed Sound Library — CC BY; “Allahu”, “The Beauty of Existence” Muslim Tune — CC BY (via YouTube) ・ Adhan (all prayers, incl. Fajr): Sheikh Hashim Muhammad As-Sakkaf, Masjid al-Haram, Makkah — CC BY (via YouTube) ・ Opening isti'adha: CC BY (via YouTube)</div>
 </div>
 
 <audio id="tilawat" src="tilawat.mp3" preload="auto"></audio>
@@ -361,6 +364,7 @@ function nextRec() {
   recIdx++;
   if (recIdx >= recQueue.length) {
     recActive = false;
+    if (closingRun) { closingRun = false; soundOn = false; applySound(); return; }
     if (!musicStarted) startMusic();
     else { const r = music.play(); if (r) r.catch(() => {}); }
     return;
@@ -368,11 +372,13 @@ function nextRec() {
   playRec();
 }
 let closePlayed = "";
+let closingRun = false;
 function checkClosingRec() {
   if (!started || adhanActive || recActive) return;
   const now = new Date();
   if (now.getHours() === 21 && now.getMinutes() === 30 && closePlayed !== now.toDateString()) {
     closePlayed = now.toDateString();
+    closingRun = true;
     try { music.pause(); } catch (e) {}
     recIdx = 0;
     playRec();
@@ -500,6 +506,13 @@ renderPrayerUI(); renderClock();
 
 /* =============== Fullscreen button =============== */
 document.addEventListener("fullscreenchange", () => { document.getElementById("fsbtn").classList.toggle("hide", !!document.fullscreenElement); });
+let soundOn = true;
+const sndBtn = document.getElementById("sndbtn");
+function applySound() {
+  [music, adhanAudio, fajrAudio, tilawatAudio].forEach(a => { try { a.muted = !soundOn; } catch (e) {} });
+  sndBtn.textContent = soundOn ? "🔊" : "🔇";
+}
+sndBtn.addEventListener("click", () => { soundOn = !soundOn; applySound(); });
 document.getElementById("fsbtn").addEventListener("click", () => {
   if (document.fullscreenElement) { document.exitFullscreen().catch(() => {}); }
   else { const el = document.documentElement; if (el.requestFullscreen) el.requestFullscreen().catch(() => {}); }
@@ -508,6 +521,7 @@ document.getElementById("fsbtn").addEventListener("click", () => {
 /* =============== Start =============== */
 document.getElementById("start").addEventListener("click", () => {
   started = true;
+  soundOn = true; applySound();
   document.getElementById("start").style.display = "none";
   const el = document.documentElement;
   if (el.requestFullscreen) el.requestFullscreen().catch(() => {});
