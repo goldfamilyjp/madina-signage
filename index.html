@@ -12,9 +12,8 @@
   .slide { position:absolute; inset:0; opacity:0; transition:opacity 1.1s ease; pointer-events:none; display:flex; }
   .slide.active { opacity:1; }
   /* ---------- feature slides ---------- */
-  .feature .photo { width:54%; height:100%; background-size:cover; background-position:center; position:relative; }
-  .feature .photo::after { content:""; position:absolute; inset:0; background:linear-gradient(to right, rgba(7,39,26,0) 55%, #07271a 100%); }
-  .feature .info { width:46%; display:flex; flex-direction:column; justify-content:center; padding:4vh 3vw 12vh 4vw; background:radial-gradient(120% 120% at 20% 30%, #0d4d2e 0%, #07271a 70%); }
+  .feature .photo { position:absolute; inset:0; background-size:cover; background-position:center; z-index:0; }
+  .feature .info { position:absolute; left:0; right:0; bottom:0; z-index:2; display:flex; flex-direction:column; justify-content:flex-end; padding:16vh 4vw 12.5vh; background:linear-gradient(to top, rgba(4,26,17,.95) 28%, rgba(4,26,17,.55) 60%, rgba(4,26,17,0) 100%); }
   .tag { display:inline-block; align-self:flex-start; border:2px solid #d4af37; color:#f3d27a; border-radius:999px; padding:.4vh 1.2vw; font-size:1.5vw; letter-spacing:.15em; margin-bottom:2.5vh; }
   .dish-en { font-size:4.6vw; font-weight:800; line-height:1.05; }
   .dish-jp { font-size:2.6vw; color:#cfe8d8; margin-top:1.2vh; font-weight:600; }
@@ -23,7 +22,7 @@
   .halal-line { margin-top:3vh; font-size:1.6vw; color:#9fd4b4; letter-spacing:.1em; }
   /* ---------- welcome ---------- */
   .welcome { flex-direction:column; align-items:center; justify-content:center; text-align:center; background:radial-gradient(110% 110% at 50% 20%, #0e5a34 0%, #07271a 72%); padding-bottom:10vh; }
-  .welcome img.logo { width:21vh; height:21vh; object-fit:contain; border-radius:50%; background:#fff; padding:1vh; box-shadow:0 0 6vh rgba(212,175,55,.35); }
+  .welcome img.logo { width:25vh; height:25vh; object-fit:cover; border-radius:50%; box-shadow:0 0 6vh rgba(212,175,55,.35); }
   .welcome h1 { font-size:5.4vw; font-weight:800; margin-top:3vh; letter-spacing:.02em; }
   .welcome .sub { font-size:2.5vw; color:#cfe8d8; margin-top:1.4vh; }
   .welcome .halal-badge { margin-top:3.4vh; font-size:2.6vw; font-weight:800; color:#0b3d24; background:linear-gradient(180deg,#f3d27a,#d4af37); padding:1.2vh 3.4vw; border-radius:999px; letter-spacing:.12em; }
@@ -74,7 +73,7 @@
   /* ---------- bottom bar ---------- */
   #bar { position:fixed; left:0; right:0; bottom:0; height:9.5vh; background:rgba(4,26,17,.92); border-top:2px solid rgba(212,175,55,.6); display:flex; align-items:center; padding:0 2vw; gap:2vw; z-index:40; }
   #bar .blogo { display:flex; align-items:center; gap:.8vw; min-width:0; }
-  #bar .blogo img { width:6.4vh; height:6.4vh; border-radius:50%; background:#fff; object-fit:contain; }
+  #bar .blogo img { width:6.4vh; height:6.4vh; border-radius:50%; object-fit:cover; }
   #bar .bname { font-size:1.45vw; font-weight:800; line-height:1.25; white-space:nowrap; }
   #bar .bstrip { flex:1; display:flex; justify-content:center; gap:1.5vw; font-size:1.35vw; color:#cfe8d8; }
   #bar .bstrip b { color:#fff; font-weight:700; }
@@ -89,10 +88,10 @@
   #adhan .a-jp { font-size:3.4vw; margin-top:1.6vh; }
   #adhan .a-time { font-size:4.6vw; font-weight:800; margin-top:2.6vh; font-variant-numeric:tabular-nums; }
   #adhan .a-msg { font-size:2.2vw; color:#cfe8d8; margin-top:2.4vh; line-height:1.6; }
-  #adhan img { width:15vh; height:15vh; border-radius:50%; background:#fff; object-fit:contain; padding:.8vh; margin-bottom:3vh; }
+  #adhan img { width:15vh; height:15vh; border-radius:50%; object-fit:cover; margin-bottom:3vh; }
   /* ---------- start overlay ---------- */
   #start { position:fixed; inset:0; background:#07271a; z-index:80; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; cursor:pointer; }
-  #start img { width:22vh; height:22vh; border-radius:50%; background:#fff; object-fit:contain; padding:1vh; }
+  #start img { width:27vh; height:27vh; border-radius:50%; object-fit:cover; }
   #start .s-title { font-size:3.6vw; font-weight:800; margin-top:3vh; }
   #start .s-btn { margin-top:3.4vh; background:linear-gradient(180deg,#f3d27a,#d4af37); color:#0b3d24; font-size:2.3vw; font-weight:800; padding:1.8vh 4vw; border-radius:999px; }
   #start .s-note { margin-top:2.6vh; font-size:1.5vw; color:#9fd4b4; line-height:1.7; }
