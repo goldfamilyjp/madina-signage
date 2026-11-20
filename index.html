@@ -111,9 +111,9 @@
   #bar { position:fixed; left:0; right:0; bottom:0; height:14.5vh; background:rgba(4,26,17,.94); border-top:2px solid rgba(212,175,55,.6); display:flex; align-items:center; padding:0 2vw 1vh; gap:2vw; z-index:40; box-sizing:border-box; }
   #bar .blogo { display:flex; align-items:center; gap:.8vw; min-width:0; }
   #bar .blogo img { width:9.2vh; height:9.2vh; border-radius:50%; object-fit:cover; }
-  #bar .bname { font-size:1.4vw; font-weight:800; line-height:1.3; white-space:nowrap; }
-  .bname .bname-jp { font-size:1.2vw; font-weight:600; color:#cfe8d8; }
-  #bar .bstrip { flex:1; display:flex; justify-content:center; gap:1.7vw; font-size:1.85vw; color:#cfe8d8; }
+  #bar .bname { font-size:1.12vw; font-weight:800; line-height:1.3; white-space:nowrap; }
+  .bname .bname-jp { font-size:.98vw; font-weight:600; color:#cfe8d8; }
+  #bar .bstrip { flex:1; display:flex; justify-content:center; gap:1.5vw; font-size:1.7vw; color:#cfe8d8; }
   #bar .bstrip b { color:#fff; font-weight:700; }
   #bar .bstrip .nx { color:#f3d27a; }
   #bar .bclock { text-align:right; }
@@ -136,7 +136,8 @@
   /* ---------- start overlay ---------- */
   #start { position:fixed; inset:0; background:#07271a; z-index:80; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; cursor:pointer; }
   #start img { width:27vh; height:27vh; border-radius:50%; object-fit:cover; }
-  #start .s-title { font-size:3.6vw; font-weight:800; margin-top:3vh; }
+  #start .s-title { font-size:3.2vw; font-weight:800; margin-top:3vh; }
+  #start .s-title-jp { font-size:2.2vw; font-weight:700; color:#cfe8d8; margin-top:1.2vh; }
   #start .s-btn { margin-top:3.4vh; background:linear-gradient(180deg,#f3d27a,#d4af37); color:#0b3d24; font-size:2.3vw; font-weight:800; padding:1.8vh 4vw; border-radius:999px; }
   #start .s-note { margin-top:2.6vh; font-size:1.5vw; color:#9fd4b4; line-height:1.7; }
   #start .credits { position:absolute; bottom:2vh; left:0; right:0; font-size:1vw; color:rgba(255,255,255,.4); }
@@ -148,8 +149,8 @@
   <!-- Welcome -->
   <section class="slide welcome" data-dur="10">
     <img class="logo" src="logo.jpg" alt="Madina Halal">
-    <h1>Madina Halal Restaurant</h1>
-    <div class="sub">マディナ ハラール レストラン＆ハラール フーズ</div>
+    <h1>Madina Halal Restaurant &amp; Foods</h1>
+    <div class="sub">マディナ ハラール レストラン＆フーズ</div>
     <div class="halal-badge">100% HALAL ・ 100％ハラール</div>
     <div class="branches">安城店 Anjo ☎ 0566-98-9995<br>豊田店 Toyota ☎ 0565-41-5616</div>
   </section>
@@ -257,7 +258,7 @@
 
 <!-- Bottom bar -->
 <div id="bar">
-  <div class="blogo"><img src="logo.jpg" alt=""><div class="bname">Madina Halal Restaurant &amp; Foods<br><span class="bname-jp">マディナ ハラール</span></div></div>
+  <div class="blogo"><img src="logo.jpg" alt=""><div class="bname">Madina Halal Restaurant &amp; Foods<br><span class="bname-jp">マディナ ハラール レストラン＆フーズ</span></div></div>
   <div class="bstrip" id="bstrip"></div>
   <div class="bclock"><div class="btime" id="clock">--:--</div><div class="bdate" id="bdate"></div><div class="bnext" id="nextprayer"></div></div>
 </div>
@@ -276,7 +277,7 @@
 <button id="sndbtn" title="音声オン・オフ / Sound on-off">🔊</button>
 <div id="start">
   <img src="logo.jpg" alt="Madina Halal">
-  <div class="s-title">Madina Halal Signage</div>
+  <div class="s-title">Madina Halal Restaurant &amp; Foods</div><div class="s-title-jp">マディナ ハラール レストラン＆フーズ</div>
   <div class="s-btn">▶ タップして開始 ・ Tap to Start</div>
   <div class="s-note">コーラン朗誦から始まります／アザーンも流れます<br>Opens with Quran recitation — Al-Fatiha, Ayatul Kursi, Al-Falaq, An-Nas, Ya-Sin, Al-Waqi'ah, end of Al-Baqarah — then nasheed ・ Recitation repeats at 21:30 closing ・ Adhan plays at prayer times</div>
   <div class="credits">Tilawat: Sheikh Maher Al-Mu'aiqly — CC BY (Wikimedia Commons / via YouTube); Surah Ya-Sin: Atcovi — CC0 (Wikimedia Commons) ・ Nasheeds: “Alhamdulilah” Jawad Syed — CC BY 3.0; “Return With Hope”, “Light Within” Nasheed Sound Library — CC BY; “Allahu”, “The Beauty of Existence” Muslim Tune — CC BY (via YouTube) ・ Adhan (all prayers, incl. Fajr): Sheikh Hashim Muhammad As-Sakkaf, Masjid al-Haram, Makkah — CC BY (via YouTube) ・ Opening isti'adha: CC BY (via YouTube)</div>
