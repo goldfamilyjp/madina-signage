@@ -196,9 +196,7 @@
   <section class="slide feature" data-dur="8"><div class="info"><span class="tag">インドネシア ・ INDONESIAN</span><div class="dish-en">Nashigoreng Rendang</div><div class="dish-jp">ナシゴレンレンダン</div><div class="price">¥1,390 <small>税込</small></div><div class="halal-line">100% HALAL ・ 100％ハラール</div><div class="mkt">レンダンとナシゴレン<span>Nasi goreng with rendang</span></div></div><div class="photo"><div class="pblur" style="background-image:url('np-nashigoreng-rendang.jpg')"></div><div class="pmain" style="background-image:url('np-nashigoreng-rendang.jpg')"></div></div></section>
   <section class="slide feature" data-dur="8"><div class="info"><span class="tag">インドネシア ・ INDONESIAN</span><div class="dish-en">Chicken Fried Rice</div><div class="dish-jp">チキンフライドライス</div><div class="price">¥1,190 <small>税込</small></div><div class="halal-line">100% HALAL ・ 100％ハラール</div><div class="mkt">チキンフライドライス<span>Chicken fried rice</span></div></div><div class="photo"><div class="pblur" style="background-image:url('np-chicken-fried-rice.jpg')"></div><div class="pmain" style="background-image:url('np-chicken-fried-rice.jpg')"></div></div></section>
   <section class="slide feature" data-dur="8"><div class="info"><span class="tag">インドネシア ・ INDONESIAN</span><div class="dish-en">Bebek Pedas</div><div class="dish-jp">ベベックペダス</div><div class="price">¥1,290 <small>税込</small></div><div class="halal-line">100% HALAL ・ 100％ハラール</div><div class="mkt">アヒルのピリ辛ソース<span>Duck in spicy sauce</span></div></div><div class="photo"><div class="pblur" style="background-image:url('np-bebek-pedas.jpg')"></div><div class="pmain" style="background-image:url('np-bebek-pedas.jpg')"></div></div></section>
-  <section class="slide feature" data-dur="8"><div class="info"><span class="tag">インドネシア ・ INDONESIAN</span><div class="dish-en">Rica Daging Sapi</div><div class="dish-jp">リカダギンサピ</div><div class="price">¥1,490 <small>税込</small></div><div class="halal-line">100% HALAL ・ 100％ハラール</div><div class="mkt">牛肉のリカソース炒め<span>Beef in rica sauce</span></div></div><div class="photo"><div class="pblur" style="background-image:url('np-rica-daging-sapi.jpg')"></div><div class="pmain" style="background-image:url('np-rica-daging-sapi.jpg')"></div></div></section>
   <section class="slide feature" data-dur="8"><div class="info"><span class="tag">インドネシア ・ INDONESIAN</span><div class="dish-en">Kambing Rendang</div><div class="dish-jp">カンビンレンダン</div><div class="price">¥1,390 <small>税込</small></div><div class="halal-line">100% HALAL ・ 100％ハラール</div><div class="mkt">羊肉のレンダン<span>Mutton rendang</span></div></div><div class="photo"><div class="pblur" style="background-image:url('np-kambing-rendang.jpg')"></div><div class="pmain" style="background-image:url('np-kambing-rendang.jpg')"></div></div></section>
-  <section class="slide feature" data-dur="8"><div class="info"><span class="tag">インドネシア ・ INDONESIAN</span><div class="dish-en">Sapi Rendang</div><div class="dish-jp">サピレンダン</div><div class="price">¥1,490 <small>税込</small></div><div class="halal-line">100% HALAL ・ 100％ハラール</div><div class="mkt">牛肉のレンダン<span>Beef rendang</span></div></div><div class="photo"><div class="pblur" style="background-image:url('np-sapi-rendang.jpg')"></div><div class="pmain" style="background-image:url('np-sapi-rendang.jpg')"></div></div></section>
   <section class="slide coupon" data-dur="10">
     <div class="big">¥500 OFF</div>
     <div class="mid">¥5,000以上のお会計で ¥500割引</div>
@@ -232,7 +230,7 @@
 
   <!-- How to order video -->
   <section class="slide video-slide" data-dur="46">
-    <div class="vblur" style="background-image:url('np-premium-curry.jpg')"></div>
+    <div class="vblur" style="background-image:url('howto-poster.jpg')"></div>
     <video id="howto" src="howto.mp4" muted playsinline preload="auto" poster="howto-poster.jpg"></video>
   </section>
 
@@ -507,6 +505,8 @@ function showSlide(i) {
     try { activeVideo.style.visibility = "visible"; activeVideo.currentTime = 0; const r = activeVideo.play(); if (r) r.catch(() => {}); } catch (e) {}
     slideDurMs = ((parseFloat(s.dataset.dur) || 30) + 2) * 1000; slideShownAt = Date.now();
     slideTimer = setTimeout(nextSlide, slideDurMs); // safety cap
+    const vchk = activeVideo, vslide = i;
+    setTimeout(() => { if (cur === vslide && vchk.readyState < 3 && vchk.currentTime === 0) vchk.style.visibility = "hidden"; }, 3000);
   } else {
     slideDurMs = (parseFloat(s.dataset.dur) || 9) * 1000; slideShownAt = Date.now();
     slideTimer = setTimeout(nextSlide, slideDurMs);
