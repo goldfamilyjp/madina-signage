@@ -549,7 +549,7 @@ document.getElementById("fsbtn").addEventListener("click", () => {
 
 /* =============== Start =============== */
 document.getElementById("start").addEventListener("click", () => {
-  started = true;
+  started = true; keepAwake();
   soundOn = true; applySound();
   document.getElementById("start").style.display = "none";
   const el = document.documentElement;
@@ -560,6 +560,9 @@ document.getElementById("start").addEventListener("click", () => {
   setTimeout(() => { if (!musicStarted && tilawatAudio.paused && tilawatAudio.currentTime === 0) nextRec(); }, 75000);
   showSlide(0);
 });
+/* keep the tablet screen awake while the show runs (for screen-mirroring to the TV) */
+function keepAwake() { try { if (navigator.wakeLock) { const r = navigator.wakeLock.request("screen"); if (r && r.catch) r.catch(() => {}); } } catch (e) {} }
+document.addEventListener("visibilitychange", () => { if (started && document.visibilityState === "visible") keepAwake(); });
 </script>
 </body>
 </html>
